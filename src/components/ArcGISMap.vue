@@ -49,8 +49,6 @@ export default defineComponent({
                     }
                 }
             });
-
-
             
             mapView.when(async function () {
                 const layer = mapView.map.layers.getItemAt(0);
@@ -80,27 +78,27 @@ export default defineComponent({
             });
         });
     // Attach the drop event listener to the mapView
-    mapView.container.addEventListener('drop', async function (event) {
-        event.preventDefault();
-        console.log(event)
-        const NoteID = JSON.parse(event.dataTransfer.getData('application/json')).NoteID;
+        mapView.container.addEventListener('drop', async function (event) {
+            event.preventDefault();
+            console.log(event)
+            const NoteID = JSON.parse(event.dataTransfer.getData('application/json')).NoteID;
 
-        const mapViewRect = mapView.container.getBoundingClientRect();
-        const offsetX = event.clientX - mapViewRect.left;
-        const offsetY = event.clientY - mapViewRect.top;
+            const mapViewRect = mapView.container.getBoundingClientRect();
+            const offsetX = event.clientX - mapViewRect.left;
+            const offsetY = event.clientY - mapViewRect.top;
 
-        // Convert screen point to map point using webMercatorUtils
-        const mapPoint = mapView.toMap({ x: offsetX, y: offsetY });
-        console.log(mapPoint);
-        const lat = mapPoint.latitude;
-        const lng = mapPoint.longitude;
+            // Convert screen point to map point using webMercatorUtils
+            const mapPoint = mapView.toMap({ x: offsetX, y: offsetY });
+            console.log(mapPoint);
+            const lat = mapPoint.latitude;
+            const lng = mapPoint.longitude;
 
-        updateNoteLocation(NoteID, lat, lng);
-    });
+            updateNoteLocation(NoteID, lat, lng);
+        });
+                    });
+
+                    view.value = mapView;
                 });
-
-                view.value = mapView;
-            });
 
         const fetchNotes = async () => {
             try {

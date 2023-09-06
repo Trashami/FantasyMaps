@@ -66,7 +66,7 @@ export default defineComponent({
 
         const fetchNotes = async () => {
             try {
-                const response = await fetch('http://127.0.0.1:8080/api.cfc?method=getNotes', {
+                const response = await fetch('http://127.0.0.1:8080/getNotes.cfm', {
                     headers: {
                         'apiKey': 'OfPeqRcpga9AXQNFE89O96nBqPMaSF8pGZZ1WcuGt9yf91wAQYNXFibIIUvlUv5IX2NLp4FntnYvOLSQ5wHPkLyp30F9aUy38CHP4VTtutuG9QB1H1qj9hwgqALosYIe'
                     }
@@ -124,7 +124,9 @@ export default defineComponent({
         };
 
         return {
-            notes, 
+            notes,
+            onDragStart,
+            fetchNotes,
             getBadgeColor,
             currentNotes,
             totalPages,

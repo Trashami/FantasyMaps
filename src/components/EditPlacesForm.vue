@@ -60,8 +60,10 @@
     methods: {
       updatePlace(event) {
         event.preventDefault();
-        // Perform an API request to update the place data
-        // Close the modal after the update
+        // Emit the update-place event with the updated place
+        this.$emit('save', this.editingPlace);
+
+        // Emit the close event to close the modal
         this.$emit('close');
       },
       discardChanges() {
@@ -70,6 +72,9 @@
         // Emit the close event to close the modal
         this.$emit('close');
       },
+      saveChanges() {
+        this.$emit('save', this.editedPlace);
+    }
     },
   };
   </script>

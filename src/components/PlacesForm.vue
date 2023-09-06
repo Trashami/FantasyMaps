@@ -73,8 +73,7 @@
   </template>
   
   
-  <script>
-  import axios from 'axios';
+  <script lang="ts">
   
   export default {
     data() {

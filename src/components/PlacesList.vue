@@ -52,7 +52,8 @@
         Next
       </button>
     </div>
-    <EditPlacesForm v-if="editingPlace" :editingPlace="editingPlace" @close="editingPlace = null" />
+    <EditPlacesForm v-if="editingPlace" :editingPlace="editingPlace" @save="handleSave" @close="editingPlace = null" />
+
   </div>
 </template>
 
@@ -66,6 +67,12 @@ import {
 } from 'vue';
 import EditPlacesForm from './EditPlacesForm.vue';
 export default defineComponent({
+  methods: {
+    handleSave(editedData) {
+        // Assuming you have an async function to handle the update like saveEditedPlace
+        this.saveEditedPlace(editedData);
+    }
+},
   setup () {
     const places = ref([]);
     const instance = getCurrentInstance();
@@ -115,6 +122,7 @@ export default defineComponent({
 
         const fetchedPlaces = parsedData.map(place => {
           return {
+            OBJECTID: place.OBJECTID,
             PlaceType: place.PlaceType,
             Longitude: place.Longitude,
             CreatedAt: place.CreatedAt,
@@ -159,39 +167,40 @@ export default defineComponent({
       }
     };
 
-    const saveEditedPlace = async () => {
-            try {
-                // Perform the necessary API call to update the place data
-                const response = await fetch('http://127.0.0.1:8080/api.cfc?method=updatePlace', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        apiKey:  'OfPeqRcpga9AXQNFE89O96nBqPMaSF8pGZZ1WcuGt9yf91wAQYNXFibIIUvlUv5IX2NLp4FntnYvOLSQ5wHPkLyp30F9aUy38CHP4VTtutuG9QB1H1qj9hwgqALosYIe',
-                    },
-                    body: JSON.stringify(editingPlace.value),
-                });
+    const saveEditedPlace = async (editedData) => {
+    try {
+        // Perform the necessary API call to update the place data
+        const response = await fetch('http://127.0.0.1:8080/updatePlace.cfm', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                apiKey: 'OfPeqRcpga9AXQNFE89O96nBqPMaSF8pGZZ1WcuGt9yf91wAQYNXFibIIUvlUv5IX2NLp4FntnYvOLSQ5wHPkLyp30F9aUy38CHP4VTtutuG9QB1H1qj9hwgqALosYIe',
+            },
+            body: JSON.stringify(editedData),
+        });
 
-                if (!response.ok) {
-                    throw new Error('Failed to save edited place');
-                }
+        if (!response.ok) {
+            throw new Error('Failed to save edited place');
+        }
 
-                // If successful, update the places array with the edited data
-                const updatedPlaces = places.value.map(place => {
-                    if (place.Name === editingPlace.value.Name) {
-                        return editingPlace.value;
-                    }
-                    return place;
-                });
-
-                places.value = updatedPlaces;
-
-                // Reset the editingPlace to null to close the edit form
-                editingPlace.value = null;
-
-            } catch (error) {
-                console.error('Error saving edited place:', error);
+        // If successful, update the places array with the edited data
+        const updatedPlaces = places.value.map(place => {
+            if (place.Name === editedData.Name) {
+                return editedData;
             }
-        };
+            return place;
+        });
+
+        places.value = updatedPlaces;
+
+        // Reset the editingPlace to null to close the edit form
+        editingPlace.value = null;
+
+    } catch (error) {
+        console.error('Error saving edited place:', error);
+    }
+};
+
 
     return {
       places,
