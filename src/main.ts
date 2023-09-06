@@ -1,6 +1,13 @@
 import { createApp } from 'vue';
 import '@unocss/reset/tailwind.css'
 import 'uno.css'
+import "@arcgis/core/assets/esri/themes/light/main.css";
+import 'rpg-awesome/css/rpg-awesome.css';
+
+
+
+
+
 import { createI18n } from 'vue-i18n';
 
 

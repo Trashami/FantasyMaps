@@ -7,7 +7,12 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    ArcGISMap: typeof import('./components/ArcGISMap.vue')['default']
+    EditPlacesForm: typeof import('./components/EditPlacesForm.vue')['default']
+    NoteForm: typeof import('./components/NoteForm.vue')['default']
+    NoteList: typeof import('./components/NoteList.vue')['default']
+    PlacesForm: typeof import('./components/PlacesForm.vue')['default']
+    PlacesList: typeof import('./components/PlacesList.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
